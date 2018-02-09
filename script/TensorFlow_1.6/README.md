@@ -1,14 +1,20 @@
 TensorFlow-1.6 for JetPack3.2 DP
 ======================================
 
+# Install prebuilt wheel
+```C
+$ ./tf1.6_install_wheel.sh [/path/to/wheel/file]
+```
+
+
 # Build from source
 ```C
 $ ./tf1.6_build_from_source.sh [/path/to/install/folder]
 ```
-```C
 Please specify the location of python. [Default is /usr/bin/python]: **[Enter]**
-
-
+</br>
+</br>
+</br>
 Found possible Python library paths:
   /usr/local/lib/python2.7/dist-packages
   /usr/lib/python2.7/dist-packages
@@ -84,13 +90,7 @@ Preconfigured Bazel build configs. You can use any of the below by adding "--con
 	--config=monolithic  	# Config for mostly static monolithic build.
 	--config=tensorrt    	# Build with TensorRT support.
 Configuration finished
-```
 
-
-# Install prebuilt wheel
-```C
-$ ./tf1.6_install_wheel.sh [/path/to/wheel/file]
-```
 
 # Reference
 https://github.com/jetsonhacks/installTensorFlowTX2
