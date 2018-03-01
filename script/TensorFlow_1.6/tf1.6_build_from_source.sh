@@ -67,7 +67,7 @@ cd $install/tensorflow
 source ./configure
 bazel build -c opt --local_resources 3072,4.0,1.0 --verbose_failures --config=cuda //tensorflow/tools/pip_package:build_pip_package
 sudo bazel-bin/tensorflow/tools/pip_package/build_pip_package ../
-sudo pip install ../tensorflow-1.6.0rc0-cp27-cp27mu-linux_aarch64.whl
+sudo pip install ../tensorflow-1.6.0-cp27-cp27mu-linux_aarch64.whl
 #bazel build -c opt --local_resources 3072,4.0,1.0 --verbose_failures --config=cuda //tensorflow/tools/lib_package:libtensorflow
 #cp bazel-bin/tensorflow/tools/lib_package/libtensorflow.tar.gz ../
 #tar -C /usr/local -xzf ../libtensorflow.tar.gz
