@@ -26,7 +26,7 @@ sudo apt-get install -y libv4l-dev v4l-utils qv4l2 v4l2ucp
 sudo apt-get install -y curl
 sudo apt-get update
 
-echo "** Download opencv-2.4.13"
+echo "** Download opencv-3.4.0"
 cd $folder
 curl -L https://github.com/opencv/opencv/archive/3.4.0.zip -o opencv-3.4.0.zip
 unzip opencv-3.4.0.zip 
