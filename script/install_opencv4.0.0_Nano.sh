@@ -14,8 +14,6 @@ if [ "$#" -ne 1 ]; then
     exit
 fi
 folder="$1"
-user="nvidia"
-passwd="nvidia"
 
 echo "** Install requirement"
 sudo apt-get update
