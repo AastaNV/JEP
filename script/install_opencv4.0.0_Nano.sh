@@ -17,6 +17,9 @@ folder="$1"
 user="nvidia"
 passwd="nvidia"
 
+echo "** Remove OpenCV3.3 first"
+sudo sudo apt-get purge *libopencv*
+
 echo "** Install requirement"
 sudo apt-get update
 sudo apt-get install -y build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
