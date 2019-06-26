@@ -9,6 +9,8 @@
 # license agreement from NVIDIA Corporation is strictly prohibited.
 #
 
+set -e
+
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <Install Folder>"
     exit
