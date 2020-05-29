@@ -1,0 +1,46 @@
+diff --git a/Makefile b/Makefile
+index c050dae5e..6106a43c7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -125,7 +125,10 @@ ifeq ($(USE_NVTX), 1)
+ endif
+ 
+ ifeq ($(USE_TENSORRT), 1)
++	CFLAGS +=  -I$(ROOTDIR)/src -I$(ROOTDIR)/3rdparty/onnx-tensorrt/third_party/onnx/build/ -I$(ROOTDIR)/3rdparty/onnx-tensorrt/
++	CFLAGS +=  -I$(ROOTDIR)/3rdparty/ -I$(ROOTDIR)/3rdparty/onnx-tensorrt/third_party/onnx/
+ 	CFLAGS +=  -I$(ROOTDIR) -I$(TPARTYDIR) -DONNX_NAMESPACE=$(ONNX_NAMESPACE) -DMXNET_USE_TENSORRT=1
++	LDFLAGS += -L$(ROOTDIR)/3rdparty/onnx-tensorrt/build/ -L$(ROOTDIR)/3rdparty/onnx-tensorrt/third_party/onnx/build/
+ 	LDFLAGS += -lprotobuf -pthread -lonnx -lonnx_proto -lnvonnxparser -lnvonnxparser_runtime -lnvinfer -lnvinfer_plugin
+ endif
+ # -L/usr/local/lib
+diff --git a/make/config.mk b/make/config.mk
+index 3d8e974a3..30743599b 100644
+--- a/make/config.mk
++++ b/make/config.mk
+@@ -70,18 +70,23 @@ USE_TVM_OP = 0
+ #---------------------------------------------
+ 
+ # whether use CUDA during compile
+-USE_CUDA = 0
++USE_CUDA = 1
+ 
+ # add the path to CUDA library to link and compile flag
+ # if you have already add them to environment variable, leave it as NONE
+ # USE_CUDA_PATH = /usr/local/cuda
+-USE_CUDA_PATH = NONE
++USE_CUDA_PATH = /usr/local/cuda-10.2/
+ 
+ # whether to enable CUDA runtime compilation
+ ENABLE_CUDA_RTC = 1
+ 
+ # whether use CuDNN R3 library
+-USE_CUDNN = 0
++USE_CUDNN = 1
++CUDA_ARCH := -gencode arch=compute_53,code=sm_53 -gencode arch=compute_62,code=sm_62 -gencode arch=compute_72,code=sm_72
++
++# tensorRT
++USE_TENSORRT = 1
++ONNX_NAMESPACE = onnx
+ 
+ # whether to use NVTX when profiling
+ USE_NVTX = 0
