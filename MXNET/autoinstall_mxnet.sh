@@ -44,9 +44,10 @@ sudo pip3 install --upgrade setuptools
 sudo pip3 install numpy graphviz
 
 
-# 3. Download mxnet wheel
+# 3. Download & install mxnet wheel
 sudo pip3 install gdown
 gdown "https://drive.google.com/uc?id="$FILEID -O $FILENAME
+sudo pip3 uninstall onnx 
 sudo pip3 install $FILENAME
 
 
