@@ -38,7 +38,7 @@ sudo apt-get install -y git libatlas-base-dev libopencv-dev graphviz libopenblas
 # 2. Install pip prerequisite
 sudo pip3 install --upgrade pip
 sudo pip3 install --upgrade setuptools
-sudo pip3 install numpy graphviz jupyter onnx
+sudo pip3 install numpy graphviz
 
 
 # 3. Upgrade cmake
@@ -47,9 +47,8 @@ tar xpvf cmake-3.13.2.tar.gz cmake-3.13.2/
 cd cmake-3.13.2/
 ./bootstrap
 make -j8
-#!/bin/bash
-echo 'export PATH='$PWD'/bin/:$PATH' >> ~/.bashrc
-source ~/.bashrc
+sudo make install
+sudo ldconfig
 cd ..
 
 
@@ -121,13 +120,11 @@ cd ../..
 set -ex
 pushd .
 
-PYTHON_DIR=${1:-$PWD/mxnet/python}
-BUILD_DIR=${2:-$PWD/mxnet/build}
-#export MXNET_LIBRARY_PATH=${BUILD_DIR}/libmxnet.so
+PYTHON_DIR=$PWD/mxnet/python
+BUILD_DIR=$PWD/mxnet/build
 
 cd ${PYTHON_DIR}
 python3 setup.py bdist_wheel
-echo "AA"
 WHEEL=`readlink -f dist/*.whl`
 TMPDIR=`mktemp -d`
 unzip -d ${TMPDIR} ${WHEEL}
@@ -138,4 +135,3 @@ zip -r ${WHEEL} .
 cp ${WHEEL} ${BUILD_DIR}
 rm -rf ${TMPDIR}
 popd
-
