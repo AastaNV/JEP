@@ -19,6 +19,7 @@ elif [ "$1" = "TX2" ]
 then
         gpu_sm=6.2
         gpu_arch=62
+	FILEID="1Mt_4VIIYybrbBZrnud_uvXHdUpb9vpiB"
         echo "Download mxnet for sm="$gpu_arch"(TX2)"
 elif [ "$1" = "Xavier" ]
 then
