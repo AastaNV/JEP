@@ -66,7 +66,7 @@ sudo ldconfig
 cd ../../ && \
 mkdir -p build && \
 cd build && \
-cmake  -DCMAKE_CXX_FLAGS=-I/usr/local/cuda/targets/aarch64-linux/include -DONNX_NAMESPACE=onnx2trt_onnx "-DGPU_ARCHS=$gpu_arch" .. && \
+cmake  -DCMAKE_CXX_FLAGS=-I/usr/local/cuda/targets/aarch64-linux/include -DONNX_NAMESPACE=onnx2trt_onnx -DGPU_ARCHS="$gpu_arch" .. && \
 sudo make -j$(nproc) install && \
 sudo ldconfig
 cd ../../../../

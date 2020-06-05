@@ -74,16 +74,16 @@ cmake -DCMAKE_CXX_FLAGS=-I/usr/include/python${PYVER} -DBUILD_ONNX_PYTHON=ON -Dp
 sudo make -j$(nproc) install && \
 sudo ldconfig && \
 cd .. && \
-sudo mkdir -p /usr/include/x86_64-linux-gnu/onnx && \
-sudo cp build/onnx/onnx*pb.* /usr/include/x86_64-linux-gnu/onnx && \
+sudo mkdir -p /usr/include/aarch64-linux-gnu/onnx && \
+sudo cp build/onnx/onnx*pb.* /usr/include/aarch64-linux-gnu/onnx && \
 sudo cp build/libonnx.so /usr/local/lib && \
-sudo rm -f /usr/lib/x86_64-linux-gnu/libonnx_proto.a && \
+sudo rm -f /usr/lib/aarch64-linux-gnu/libonnx_proto.a && \
 sudo ldconfig
 
 cd ../../ && \
 mkdir -p build && \
 cd build && \
-cmake  -DCMAKE_CXX_FLAGS=-I/usr/local/cuda/targets/aarch64-linux/include -DONNX_NAMESPACE=onnx2trt_onnx .. && \
+cmake  -DCMAKE_CXX_FLAGS=-I/usr/local/cuda/targets/aarch64-linux/include -DONNX_NAMESPACE=onnx2trt_onnx -DGPU_ARCHS="$gpu_arch" .. && \
 sudo make -j$(nproc) install && \
 sudo ldconfig
 cd ../../../../
