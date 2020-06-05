@@ -45,10 +45,36 @@ sudo pip3 install --upgrade setuptools
 sudo pip3 install numpy graphviz
 
 
-# 3. Download & install mxnet wheel
+# 3. Install ONNX-TRT
+sudo pip3 uninstall onnx
+
+export PYVER=3.6
+git clone https://github.com/apache/incubator-mxnet.git --branch v1.7.x --recursive mxnet
+cd mxnet/3rdparty/onnx-tensorrt/third_party/onnx/
+export CPLUS_INCLUDE_PATH=/usr/include/python3.6:/usr/local/cuda/targets/aarch64-linux/include
+mkdir -p build && cd build
+cmake -DCMAKE_CXX_FLAGS=-I/usr/include/python${PYVER} -DBUILD_ONNX_PYTHON=ON -Dpybind11_DIR=/home/nvidia/pybind11/install/share/cmake/pybind11/ -DBUILD_SHARED_LIBS=ON ..
+sudo make -j$(nproc) install && \
+sudo ldconfig && \
+cd .. && \
+sudo mkdir -p /usr/include/aarch64-linux-gnu/onnx && \
+sudo cp build/onnx/onnx*pb.* /usr/include/aarch64-linux-gnu/onnx && \
+sudo cp build/libonnx.so /usr/local/lib && \
+sudo rm -f /usr/lib/aarch64-linux-gnu/libonnx_proto.a && \
+sudo ldconfig
+
+cd ../../ && \
+mkdir -p build && \
+cd build && \
+cmake  -DCMAKE_CXX_FLAGS=-I/usr/local/cuda/targets/aarch64-linux/include -DONNX_NAMESPACE=onnx2trt_onnx "-DGPU_ARCHS=$gpu_arch" .. && \
+sudo make -j$(nproc) install && \
+sudo ldconfig
+cd ../../../../
+
+
+# 4. Download & install mxnet wheel
 sudo pip3 install gdown
 gdown "https://drive.google.com/uc?id="$FILEID -O $FILENAME
-sudo pip3 uninstall onnx 
 sudo pip3 install $FILENAME
 
 
