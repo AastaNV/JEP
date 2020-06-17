@@ -33,10 +33,11 @@ else
 fi
 
 FILENAME="mxnet-1.7.0-py3-none-any.whl"
+export CUDACXX="/usr/local/cuda/bin/nvcc"
 
 # 1. Install dependencies
 sudo apt-get update
-sudo apt-get install -y git build-essential python3-pip libprotobuf-dev protobuf-compiler libopencv-dev graphviz libopenblas-dev libopenblas-base libatlas-base-dev
+sudo apt-get install -y git build-essential python3-pip libprotobuf-dev protobuf-compiler libopencv-dev graphviz libopenblas-dev libopenblas-base libatlas-base-dev libprotoc-dev python-setuptools
 
 
 # 2. Install pip prerequisite
