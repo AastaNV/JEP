@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
+# Copyright (c) 2020, NVIDIA CORPORATION.  All rights reserved.
 #
 # NVIDIA Corporation and its licensors retain all intellectual property
 # and proprietary rights in and to this software, related documentation
@@ -18,7 +18,8 @@ user="nvidia"
 passwd="nvidia"
 
 echo "** Remove other OpenCV first"
-sudo sudo apt-get purge *libopencv*
+#sudo sudo apt-get purge *libopencv*
+
 
 echo "** Install requirement"
 sudo apt-get update
@@ -30,25 +31,30 @@ sudo apt-get install -y libv4l-dev v4l-utils qv4l2 v4l2ucp
 sudo apt-get install -y curl
 sudo apt-get update
 
-echo "** Download opencv-4.1.1"
+
+echo "** Download opencv-4.3.0"
 cd $folder
-curl -L https://github.com/opencv/opencv/archive/4.1.1.zip -o opencv-4.1.1.zip
-curl -L https://github.com/opencv/opencv_contrib/archive/4.1.1.zip -o opencv_contrib-4.1.1.zip
-unzip opencv-4.1.1.zip
-unzip opencv_contrib-4.1.1.zip
-cd opencv-4.1.1/
+curl -L https://github.com/opencv/opencv/archive/4.3.0.zip -o opencv-4.3.0.zip
+curl -L https://github.com/opencv/opencv_contrib/archive/4.3.0.zip -o opencv_contrib-4.3.0.zip
+unzip opencv-4.3.0.zip
+unzip opencv_contrib-4.3.0.zip
+cd opencv-4.3.0/
+
 
 echo "** Apply patch"
 sed -i 's/include <Eigen\/Core>/include <eigen3\/Eigen\/Core>/g' modules/core/include/opencv2/core/private.hpp
+sed -i 's/{CUDNN_INCLUDE_DIR}\/cudnn.h/{CUDNN_INCLUDE_DIR}\/cudnn_version.h/g' cmake/FindCUDNN.cmake
+
 
 echo "** Building..."
 mkdir release
 cd release/
-cmake -D WITH_CUDA=ON -D CUDA_ARCH_BIN="5.3,6.2,7.2" -D CUDA_ARCH_PTX="" -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -D WITH_GSTREAMER=ON -D WITH_LIBV4L=ON -D BUILD_opencv_python2=ON -D BUILD_opencv_python3=ON -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_EXAMPLES=OFF -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
-make -j3
-sudo make install
-echo 'export PYTHONPATH=$PYTHONPATH:'$PWD'/python_loader/' >> ~/.bashrc
-source ~/.bashrc
+cmake -D WITH_CUDA=ON -D WITH_CUDNN=ON -D CUDA_ARCH_BIN="5.3,6.2,7.2" -D CUDA_ARCH_PTX="" -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.3.0/modules -D WITH_GSTREAMER=ON -D WITH_LIBV4L=ON -D BUILD_opencv_python2=ON -D BUILD_opencv_python3=ON -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_EXAMPLES=OFF -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
+make -j$(nproc)
+#sudo make install
+#echo 'export PYTHONPATH=$PYTHONPATH:'$PWD'/python_loader/' >> ~/.bashrc
+#source ~/.bashrc
 
-echo "** Install opencv-4.1.1 successfully"
+
+echo "** Install opencv-4.3.0 successfully"
 echo "** Bye :)"
