@@ -81,7 +81,13 @@ sudo pip3 install $FILENAME
 
 # 4. Test
 echo "Start testing for MXNet-TRT"
-wget https://raw.githubusercontent.com/AastaNV/JEP/master/MXNET/resnet18-mxnet-trt.py
+if [ "$1" = "Nano" ]
+then
+        wget https://raw.githubusercontent.com/AastaNV/JEP/master/MXNET/resnet18-mxnet-trt_nano.py
+	mv resnet18-mxnet-trt_nano.py resnet18-mxnet-trt.py
+else
+	wget https://raw.githubusercontent.com/AastaNV/JEP/master/MXNET/resnet18-mxnet-trt.py
+fi
 python3 resnet18-mxnet-trt.py
 
 echo "Finish : )"
