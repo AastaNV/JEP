@@ -4,7 +4,7 @@ import time
 import os
 
 os.environ['MXNET_USE_TENSORRT'] = '1'
-s.environ['MXNET_CUDNN_AUTOTUNE_DEFAULT'] = '0'
+os.environ['MXNET_CUDNN_AUTOTUNE_DEFAULT'] = '0'
 
 batch_shape = (1, 3, 224, 224)
 resnet18 = vision.resnet18_v2(pretrained=True)
