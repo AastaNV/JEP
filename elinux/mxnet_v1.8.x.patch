@@ -1,0 +1,60 @@
+diff --git a/3rdparty/onnx-tensorrt b/3rdparty/onnx-tensorrt
+--- a/3rdparty/onnx-tensorrt
++++ b/3rdparty/onnx-tensorrt
+@@ -1 +1 @@
+-Subproject commit 2eb74d933f89e1590fdbfc64971a36e5f72df720
++Subproject commit 2eb74d933f89e1590fdbfc64971a36e5f72df720-dirty
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 98c10d756..63b0a66e6 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -871,7 +871,7 @@ if(USE_OPENCV AND OpenCV_VERSION_MAJOR GREATER 2)
+   if(MSVC)
+     target_link_libraries(im2rec mxnet)
+   else()
+-    target_link_libraries(im2rec ${BEGIN_WHOLE_ARCHIVE} mxnet_static ${END_WHOLE_ARCHIVE})
++    target_link_libraries(im2rec ${BEGIN_WHOLE_ARCHIVE} mxnet_static -lcublas ${END_WHOLE_ARCHIVE})
+   endif()
+   target_link_libraries(im2rec
+     ${mxnet_LINKER_LIBS}
+diff --git a/example/image-classification/predict-cpp/CMakeLists.txt b/example/image-classification/predict-cpp/CMakeLists.txt
+index c42d1917b..8a671b3c8 100644
+--- a/example/image-classification/predict-cpp/CMakeLists.txt
++++ b/example/image-classification/predict-cpp/CMakeLists.txt
+@@ -20,12 +20,14 @@ if(IMG_CLASSIFICATION_EXAMPLE_STATIC_LINK)
+   target_link_libraries(image-classification-predict
+                         ${BEGIN_WHOLE_ARCHIVE} mxnet_static ${END_WHOLE_ARCHIVE}
+                         dmlc
++                       -lcublas
+                         ${mxnet_LINKER_LIBS}
+                         )
+   add_dependencies(image-classification-predict mxnet_static)
+ else()
+   target_link_libraries(image-classification-predict
+                         dmlc
++                       -lcublas
+                         ${nnvm_LINKER_LIBS}
+                         ${mxnet_LINKER_LIBS}
+                         mxnet
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+index 745251ed6..16ae6447f 100644
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -44,7 +44,7 @@ if(GTEST_FOUND AND NOT MSVC)
+   if(UNITTEST_STATIC_LINK)
+     target_link_libraries(${PROJECT_NAME}_unit_tests
+       ${GTEST_LIBRARY}
+-      ${BEGIN_WHOLE_ARCHIVE} mxnet_static ${END_WHOLE_ARCHIVE}
++      ${BEGIN_WHOLE_ARCHIVE} -lcublas mxnet_static ${END_WHOLE_ARCHIVE}
+       dmlc
+       ${mxnet_LINKER_LIBS}
+       ${pslite_LINKER_LIBS}
+@@ -52,7 +52,7 @@ if(GTEST_FOUND AND NOT MSVC)
+   else()
+     target_link_libraries(${PROJECT_NAME}_unit_tests
+       ${GTEST_LIBRARY}
+-      dmlc
++      dmlc -lcublas
+       ${nnvm_LINKER_LIBS}
+       ${mxnet_LINKER_LIBS}
+       mxnet
