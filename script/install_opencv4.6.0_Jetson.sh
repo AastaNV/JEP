@@ -12,6 +12,8 @@
 version="4.6.0"
 folder="workspace"
 
+set -e
+
 for (( ; ; ))
 do
     echo "Do you want to remove the default OpenCV (yes/no)?"
